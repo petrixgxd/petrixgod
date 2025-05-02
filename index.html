@@ -182,7 +182,6 @@
             box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
         }
 
-        /* About section */
         .about-section {
             text-align: left;
             padding: 20px;
@@ -216,7 +215,6 @@
             border: 1px solid #ff4b4b;
         }
 
-        /* Gallery section */
         .gallery {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -264,7 +262,6 @@
             transform: translateY(0);
         }
 
-        /* Blog section */
         .blog-posts {
             display: flex;
             flex-direction: column;
@@ -311,7 +308,6 @@
             text-decoration: underline;
         }
 
-        /* View counter */
         .view-section {
             font-weight: bold;
             font-size: 24px;
@@ -344,7 +340,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Blur effect */
         .blurred {
             position: fixed;
             top: 0;
@@ -362,7 +357,6 @@
             cursor: pointer;
         }
 
-        /* Section divider */
         .section-divider {
             display: flex;
             align-items: center;
@@ -381,7 +375,6 @@
             text-shadow: 0 0 8px #ff4b4b;
         }
 
-        /* Game styles */
         .virus {
             position: absolute;
             width: 15px;
@@ -401,7 +394,6 @@
             cursor: none;
         }
 
-        /* Responsive adjustments */
         @media (max-width: 768px) {
             .container {
                 padding: 20px;
@@ -433,7 +425,6 @@
     <div class="animated-bg"></div>
 
     <div class="main-container">
-        <!-- Profile Section -->
         <div class="container">
             <img src="avatar.jpg" alt="Avatar" class="avatar">
             <h1>@petrixgod</h1>
@@ -467,8 +458,7 @@
                 <span class="view-counter" id="view-counter">0</span>
             </div>
         </div>
-
-        <!-- About Section -->
+        
         <div class="container">
             <h2>Обо мне</h2>
             <div class="about-content">
@@ -484,7 +474,6 @@
             </div>
         </div>
 
-        <!-- Gallery Section -->
         <div class="container">
             <h2>Галерея</h2>
             <p>Рандом картинки</p>
@@ -509,7 +498,6 @@
             </div>
         </div>
 
-        <!-- Blog Section -->
         <div class="container">
             <h2>Последние записи</h2>
             
@@ -525,7 +513,6 @@
             </div>
         </div>
 
-        <!-- Game Section -->
         <div class="container">
             <h2>Игра про вирусы</h2>
             <p>Управляй курсором чтобы избегать красных вирусов (кликни чтобы начать)</p>
@@ -556,14 +543,12 @@
     </div>
     
     <script>
-        // Music player
         function changeTrack(file) {
             const player = document.getElementById("music-player");
             player.src = file;
             player.play();
         }
 
-        // Remove blur screen
         document.getElementById("blur-screen").onclick = function() {
             const blurScreen = document.getElementById("blur-screen");
             blurScreen.style.display = "none";
@@ -571,11 +556,9 @@
             const player = document.getElementById("music-player");
             player.play();
             
-            // Update view counter
             updateViewCounter();
         };
 
-        // View counter
         function updateViewCounter() {
             let views = localStorage.getItem('pageViews') || 0;
             views = parseInt(views) + 1;
@@ -590,7 +573,6 @@
             }, 300);
         }
 
-        // Particles animation
         const canvas = document.getElementById("particles");
         const ctx = canvas.getContext("2d");
         canvas.width = window.innerWidth;
@@ -598,9 +580,8 @@
         
         let particles = [];
         
-        // Create particles with different shapes
         for (let i = 0; i < 100; i++) {
-            let shape = Math.floor(Math.random() * 3); // 0 - circle, 1 - square, 2 - triangle
+            let shape = Math.floor(Math.random() * 3);
             
             particles.push({
                 x: Math.random() * canvas.width,
@@ -615,11 +596,11 @@
         function drawParticle(p) {
             ctx.beginPath();
             
-            if (p.shape === 0) { // Circle
+            if (p.shape === 0) {
                 ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-            } else if (p.shape === 1) { // Square
+            } else if (p.shape === 1) {
                 ctx.rect(p.x - p.size / 2, p.y - p.size / 2, p.size, p.size);
-            } else if (p.shape === 2) { // Triangle
+            } else if (p.shape === 2) {
                 ctx.moveTo(p.x, p.y - p.size);
                 ctx.lineTo(p.x - p.size, p.y + p.size);
                 ctx.lineTo(p.x + p.size, p.y + p.size);
@@ -669,7 +650,6 @@
                 let difficultyLevel = 1;
                 const maxDifficulty = 5;
                 
-                // Стили для вирусов
                 const style = document.createElement('style');
                 style.textContent = `
                     .virus {
@@ -689,11 +669,9 @@
                 `;
                 document.head.appendChild(style);
             
-                // Центрируем игрока
                 player.style.left = '50%';
                 player.style.top = '50%';
                 
-                // Движение игрока
                 gameContainer.addEventListener('mousemove', function(e) {
                     if (!gameStarted) return;
                     
@@ -701,7 +679,6 @@
                     const x = e.clientX - rect.left - 10;
                     const y = e.clientY - rect.top - 10;
                     
-                    // Границы игрового поля
                     const boundedX = Math.max(0, Math.min(rect.width - 20, x));
                     const boundedY = Math.max(0, Math.min(rect.height - 20, y));
                     
@@ -709,7 +686,6 @@
                     player.style.top = boundedY + 'px';
                 });
                 
-                // Начало игры
                 function startGame() {
                     if (gameStarted) return;
                     
@@ -720,66 +696,57 @@
                     gameScore.textContent = 'Время: 0 сек | Уровень: 1';
                     gameContainer.style.cursor = 'none';
                     
-                    // Очистка вирусов
                     clearViruses();
                     
-                    // Игровой цикл
                     gameInterval = setInterval(function() {
                         score++;
                         
-                        // Увеличиваем сложность каждые 15 секунд
                         difficultyLevel = Math.min(maxDifficulty, Math.floor(score/15) + 1);
                         gameScore.textContent = `Время: ${score} сек | Уровень: ${difficultyLevel}`;
                         
-                        // Создаем вирусы (количество зависит от уровня сложности)
                         const virusesToCreate = 1 + Math.floor(difficultyLevel/2);
                         
                         for (let i = 0; i < virusesToCreate; i++) {
                             createVirus();
                         }
                         
-                        // Двигаем вирусы
                         moveViruses();
                         
-                        // Проверка столкновений
                         if (!collisionInterval) {
                             collisionInterval = setInterval(checkCollisions, 50);
                         }
-                    }, 1000 - (difficultyLevel * 150)); // Уменьшаем интервал с ростом сложности
+                    }, 1000 - (difficultyLevel * 150));
                 }
                 
-                // Создание вируса
                 function createVirus() {
                     const virus = document.createElement('div');
                     virus.className = 'virus';
                     
-                    // Начальная позиция (с какой стороны появится вирус)
-                    const side = Math.floor(Math.random() * 4); // 0-верх, 1-право, 2-низ, 3-лево
+                    const side = Math.floor(Math.random() * 4);
                     let x, y, dx, dy;
                     
-                    // Скорость зависит от уровня сложности
-                    const speed = 1 + (difficultyLevel * 0.5);
+                    const speed = 2 + (difficultyLevel * 0.5);
                     
                     switch(side) {
-                        case 0: // сверху
+                        case 0:
                             x = Math.random() * 100;
                             y = -20;
                             dx = (Math.random() - 0.5) * speed;
                             dy = speed;
                             break;
-                        case 1: // справа
+                        case 1:
                             x = 100;
                             y = Math.random() * 100;
                             dx = -speed;
                             dy = (Math.random() - 0.5) * speed;
                             break;
-                        case 2: // снизу
+                        case 2:
                             x = Math.random() * 100;
                             y = 100;
                             dx = (Math.random() - 0.5) * speed;
                             dy = -speed;
                             break;
-                        case 3: // слева
+                        case 3:
                             x = -20;
                             y = Math.random() * 100;
                             dx = speed;
@@ -790,7 +757,6 @@
                     virus.style.left = x + '%';
                     virus.style.top = y + '%';
                     
-                    // Сохраняем скорость вируса
                     virus.dataset.dx = dx;
                     virus.dataset.dy = dy;
                     
@@ -802,7 +768,6 @@
                     });
                 }
                 
-                // Движение вирусов
                 function moveViruses() {
                     viruses.forEach(virusObj => {
                         if (!virusObj.element.parentNode) return;
@@ -811,28 +776,23 @@
                         const rect = virus.getBoundingClientRect();
                         const gameRect = gameContainer.getBoundingClientRect();
                         
-                        // Получаем текущие координаты в процентах
                         let x = parseFloat(virus.style.left);
                         let y = parseFloat(virus.style.top);
                         
-                        // Обновляем позицию
                         x += virusObj.dx;
                         y += virusObj.dy;
                         
                         virus.style.left = x + '%';
                         virus.style.top = y + '%';
                         
-                        // Удаляем вирусы, которые вылетели за границы
                         if (x < -10 || x > 110 || y < -10 || y > 110) {
                             virus.remove();
                         }
                     });
                     
-                    // Удаляем вылетевшие вирусы из массива
                     viruses = viruses.filter(v => v.element.parentNode);
                 }
                 
-                // Очистка вирусов
                 function clearViruses() {
                     viruses.forEach(v => {
                         if (v.element.parentNode) {
@@ -842,7 +802,6 @@
                     viruses = [];
                 }
                 
-                // Проверка столкновений
                 function checkCollisions() {
                     const playerRect = player.getBoundingClientRect();
                     
@@ -862,7 +821,6 @@
                     });
                 }
                 
-                // Конец игры
                 function endGame() {
                     clearInterval(gameInterval);
                     clearInterval(collisionInterval);
@@ -872,7 +830,6 @@
                     gameMessage.innerHTML = 'ИГРА ОКОНЧЕНА!<br>Твой результат: ' + score + ' сек<br>Уровень: ' + difficultyLevel + '<br>Кликни чтобы начать снова';
                     gameContainer.style.cursor = 'pointer';
                     
-                    // Эффект мигания
                     let flashCount = 0;
                     const flashInterval = setInterval(() => {
                         gameContainer.style.borderColor = flashCount % 2 === 0 ? '#fff' : '#ff4b4b';
@@ -885,7 +842,6 @@
                     }, 200);
                 }
                 
-                // Начало игры по клику
                 gameContainer.addEventListener('click', function() {
                     if (!gameStarted) {
                         startGame();
