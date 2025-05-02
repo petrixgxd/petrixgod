@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>petrixgod - BIO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Orbitron', sans-serif;
+            background: linear-gradient(-45deg, #000000, #1a1a1a, #0f0f0f, #1f1f1f);
+            background-size: 400% 400%;
+            animation: gradient 20s ease infinite;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            background: radial-gradient(circle at 30% 30%, rgba(255,0,0,0.1), transparent 70%),
+                        radial-gradient(circle at 70% 70%, rgba(255,0,0,0.05), transparent 70%);
+            animation: move-bg 30s linear infinite;
+            overflow: hidden;
+        }
+
+        @keyframes move-bg {
+            0% {
+                background-position: 30% 30%, 70% 70%;
+            }
+            50% {
+                background-position: 40% 40%, 60% 60%;
+            }
+            100% {
+                background-position: 30% 30%, 70% 70%;
+            }
+        }
+
+        canvas#particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(-45deg, #0d0d0d, #1c1c1c, #0f0f0f, #1f1f1f);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            z-index: -2;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .main-container {
+            width: 100%;
+            max-width: 1200px;
+            padding: 20px;
+            z-index: 1;
+        }
+
+        .container {
+            background: rgba(15, 15, 15, 0.85);
+            padding: 40px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.3);
+        }
+
+        .avatar {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            border: 3px solid #ff4b4b;
+            margin-bottom: 20px;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+            transition: transform 0.3s ease;
+        }
+
+        .avatar:hover {
+            transform: scale(1.05);
+        }
+
+        h1 {
+            font-size: 2.8em;
+            margin: 0;
+            color: #ff4b4b;
+            text-shadow: 0 0 8px #ff4b4b;
+        }
+
+        h2 {
+            color: #ff4b4b;
+            text-shadow: 0 0 5px #ff4b4b;
+            margin-top: 0;
+        }
+
+        .bio {
+            color: #ccc;
+            margin: 15px 0 30px;
+            font-size: 1.1em;
+            letter-spacing: 1px;
+        }
+
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .link-button {
+            background: rgba(255, 0, 0, 0.8);
+            border: none;
+            color: white;
+            padding: 15px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1em;
+            font-weight: bold;
+            transition: 0.3s;
+            box-shadow: 0 0 12px rgba(255, 0, 0, 0.4);
+        }
+
+        .link-button:hover {
+            background: rgba(255, 77, 77, 1);
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 77, 77, 0.6);
+        }
+
+        .music-player {
+            margin-top: 30px;
+        }
+
+        select {
+            padding: 10px 15px;
+            border-radius: 10px;
+            border: none;
+            font-family: inherit;
+            font-weight: bold;
+            background: #111;
+            color: #bd1313;
+            margin-bottom: 15px;
+        }
+
+        iframe {
+            width: 100%;
+            height: 200px;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
+        }
+
+        /* About section */
+        .about-section {
+            text-align: left;
+            padding: 20px;
+        }
+
+        .about-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .about-text {
+            flex: 1;
+            min-width: 300px;
+            text-align: left;
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .skill {
+            background: rgba(255, 0, 0, 0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            border: 1px solid #ff4b4b;
+        }
+
+        /* Gallery section */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+            aspect-ratio: 16/9;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
+        }
+
+        /* Blog section */
+        .blog-posts {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .blog-post {
+            background: rgba(20, 20, 20, 0.7);
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 3px solid #ff4b4b;
+            transition: transform 0.3s ease;
+        }
+
+        .blog-post:hover {
+            transform: translateX(5px);
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+        }
+
+        .post-title {
+            color: #ff4b4b;
+            margin-top: 0;
+        }
+
+        .post-date {
+            color: #777;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+
+        .post-content {
+            color: #ccc;
+        }
+
+        .read-more {
+            color: #ff4b4b;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .read-more:hover {
+            text-decoration: underline;
+        }
+
+        /* View counter */
+        .view-section {
+            font-weight: bold;
+            font-size: 24px;
+            color: #ff4b4b;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: fadeIn 1s ease-in-out forwards;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .view-label {
+            text-shadow: 0 0 8px #ff4b4b, 0 0 15px #6a0f0f;
+        }
+
+        .view-counter {
+            font-size: 28px;
+            color: #ff4b4b;
+            text-shadow: 0 0 10px #ff4b4b, 0 0 20px #ff0000;
+            transition: transform 0.3s ease, color 0.5s ease;
+        }
+
+        .view-counter.bump {
+            transform: scale(1.2);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Blur effect */
+        .blurred {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: rgb(219, 14, 14);
+            font-size: 24px;
+            z-index: 100;
+            cursor: pointer;
+        }
+
+        /* Section divider */
+        .section-divider {
+            display: flex;
+            align-items: center;
+            margin: 40px 0;
+            color: #ff4b4b;
+        }
+
+        .divider-line {
+            flex-grow: 1;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #ff4b4b, transparent);
+        }
+
+        .divider-text {
+            padding: 0 20px;
+            text-shadow: 0 0 8px #ff4b4b;
+        }
+
+        /* Game styles */
+        .virus {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: #ff4b4b;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #f00;
+            animation: virus-pulse 1s infinite alternate;
+        }
+        
+        @keyframes virus-pulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.2); }
+        }
+        
+        #game-container:hover {
+            cursor: none;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .about-text {
+                text-align: center;
+            }
+            
+            .skills {
+                justify-content: center;
+            }
+            
+            #game-container {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="blur-screen" class="blurred">
+        Кликните в любое место, чтобы начать.
+    </div>
+    <canvas id="particles"></canvas>
+    <div class="animated-bg"></div>
+
+    <div class="main-container">
+        <!-- Profile Section -->
+        <div class="container">
+            <img src="avatar.jpg" alt="Avatar" class="avatar">
+            <h1>@petrixgod</h1>
+            <p class="bio">DISCORD: <a href="https://discord.com/users/428241544236105759" style="color:#ff4b4b;">Как относишься к тому что мне похуй?</a></p>
+
+            <div class="links">
+                <a href="https://t.me/petrixgod" class="link-button">Telegram Group</a>
+                <a href="https://discord.gg/CnfbKKYma8" class="link-button">King Rekills discord</a>
+                <a href="https://discord.gg/socialnetwork" class="link-button">Social Network discord</a>
+            </div>
+
+            <div class="music-player">
+                <h2>Music</h2>
+                <select id="track-select" onchange="changeTrack(this.value)">
+                    <option value="music/painic3peak.mp3">IC3PEAK - Pain</option>
+                    <option value="music/reprezent.mp3">Репрезент - паранойя</option>
+                    <option value="music/mnehotelos.mp3">Мне хотелось умереть - IC3PEAK</option>
+                    <option value="music/hassundliebe.mp3">Hass Und Liebe - Miss Constructrion</option>
+                    <option value="music/bailao.mp3">MONTAGEM BAILÃO</option>
+                    <option value="music/forgottenchild.mp3">FORGOTTEN CHILD - Miguel Angeles</option>
+                </select>
+            
+                <audio id="music-player" style="display: none;">
+                    <source src="music/painic3peak.mp3" type="audio/mpeg">
+                    Твой браузер к сожалению не поддерживает этот элемент.
+                </audio>
+            </div>
+
+            <div class="view-section">
+                <span class="view-label">Просмотров:</span>
+                <span class="view-counter" id="view-counter">0</span>
+            </div>
+        </div>
+
+        <!-- About Section -->
+        <div class="container">
+            <h2>Обо мне</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Привет, я petrixgod - чилловый парень, в данный момент не в отношениях, состою в клане Social Network.</p>
+                    <p>Пишу ботов для своих серверов (не продаю, так как мне лень)</p>
+                    
+                    <div class="skills">
+                        <span class="skill">JavaScript</span>
+                        <span class="skill">Python</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gallery Section -->
+        <div class="container">
+            <h2>Галерея</h2>
+            <p>Рандом картинки</p>
+            
+            <div class="gallery">
+                <div class="gallery-item">
+                    <img src="https://i.pinimg.com/736x/40/53/d8/4053d82f712b7721347004cb7e421610.jpg" alt="C.C 1">
+                    <div class="gallery-caption">C.C из Код Гиасс</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://cs14.pikabu.ru/post_img/big/2023/01/27/7/1674819164179144564.jpg" alt="Leloush 1">
+                    <div class="gallery-caption">Это Лелуш</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://imgos.info/upload/anime/images/67ed9e7872bb0406852004.jpg" alt="TBATE 1">
+                    <div class="gallery-caption">Ну челикс с аниме прикольный</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images4.alphacoders.com/125/1252041.jpg" alt="SUBARU 1">
+                    <div class="gallery-caption">Это субару, страдает много</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Blog Section -->
+        <div class="container">
+            <h2>Последние записи</h2>
+            
+            <div class="blog-posts">
+                <div class="blog-post">
+                    <h3 class="post-title">Новый проект в разработке</h3>
+                    <div class="post-date">20 апреля 2025</div>
+                    <div class="post-content">
+                        <p>Начал работу над новым проектом, бота защитника для вашего сервера...</p>
+                    </div>
+                    <a href="https://t.me/petrixgod" class="read-more">Читать далее →</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Section -->
+        <div class="container">
+            <h2>Игра про вирусы</h2>
+            <p>Управляй курсором чтобы избегать красных вирусов (кликни чтобы начать)</p>
+            <div id="game-container" style="
+                position: relative; 
+                height: 300px; 
+                border: 2px solid #ff4b4b; 
+                border-radius: 5px; 
+                overflow: hidden;
+                background: rgba(0,0,0,0.3);
+                margin: 20px 0;
+            ">
+                <div id="player" style="
+                    position: absolute;
+                    width: 20px;
+                    height: 20px;
+                    background: #0f0;
+                    border-radius: 50%;
+                    z-index: 2;
+                    box-shadow: 0 0 10px #0f0;
+                    pointer-events: none;
+                "></div>
+                <div id="game-area" style="position: relative; width: 100%; height: 100%;"></div>
+            </div>
+            <div id="game-score" style="margin-top: 10px; color: #ff4b4b; font-size: 1.2em;">Время: 0 сек</div>
+            <div id="game-message" style="margin-top: 10px; color: #ff4b4b; min-height: 20px;"></div>
+        </div>
+    </div>
+    
+    <script>
+        // Music player
+        function changeTrack(file) {
+            const player = document.getElementById("music-player");
+            player.src = file;
+            player.play();
+        }
+
+        // Remove blur screen
+        document.getElementById("blur-screen").onclick = function() {
+            const blurScreen = document.getElementById("blur-screen");
+            blurScreen.style.display = "none";
+
+            const player = document.getElementById("music-player");
+            player.play();
+            
+            // Update view counter
+            updateViewCounter();
+        };
+
+        // View counter
+        function updateViewCounter() {
+            let views = localStorage.getItem('pageViews') || 0;
+            views = parseInt(views) + 1;
+            localStorage.setItem('pageViews', views);
+            
+            const counter = document.getElementById('view-counter');
+            counter.textContent = views;
+            counter.classList.add('bump');
+            
+            setTimeout(() => {
+                counter.classList.remove('bump');
+            }, 300);
+        }
+
+        // Particles animation
+        const canvas = document.getElementById("particles");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        let particles = [];
+        
+        // Create particles with different shapes
+        for (let i = 0; i < 100; i++) {
+            let shape = Math.floor(Math.random() * 3); // 0 - circle, 1 - square, 2 - triangle
+            
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 4 + 1,
+                dx: (Math.random() - 0.5) * 0.5,
+                dy: (Math.random() - 0.5) * 0.5,
+                shape: shape,
+            });
+        }
+        
+        function drawParticle(p) {
+            ctx.beginPath();
+            
+            if (p.shape === 0) { // Circle
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            } else if (p.shape === 1) { // Square
+                ctx.rect(p.x - p.size / 2, p.y - p.size / 2, p.size, p.size);
+            } else if (p.shape === 2) { // Triangle
+                ctx.moveTo(p.x, p.y - p.size);
+                ctx.lineTo(p.x - p.size, p.y + p.size);
+                ctx.lineTo(p.x + p.size, p.y + p.size);
+                ctx.closePath();
+            }
+            
+            ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
+            ctx.fill();
+        }
+        
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            for (let p of particles) {
+                drawParticle(p);
+                
+                p.x += p.dx;
+                p.y += p.dy;
+                
+                if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+            }
+            
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+        
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+    <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const gameArea = document.getElementById('game-area');
+                const player = document.getElementById('player');
+                const gameScore = document.getElementById('game-score');
+                const gameMessage = document.getElementById('game-message');
+                const gameContainer = document.getElementById('game-container');
+                
+                let score = 0;
+                let gameInterval;
+                let collisionInterval;
+                let viruses = [];
+                let gameStarted = false;
+                let difficultyLevel = 1;
+                const maxDifficulty = 5;
+                
+                // Стили для вирусов
+                const style = document.createElement('style');
+                style.textContent = `
+                    .virus {
+                        position: absolute;
+                        width: 20px;
+                        height: 20px;
+                        background: #ff4b4b;
+                        border-radius: 50%;
+                        box-shadow: 0 0 10px #ff0000;
+                        z-index: 1;
+                        animation: virus-pulse 0.5s infinite alternate;
+                    }
+                    @keyframes virus-pulse {
+                        from { transform: scale(1); opacity: 0.8; }
+                        to { transform: scale(1.2); opacity: 1; }
+                    }
+                `;
+                document.head.appendChild(style);
+            
+                // Центрируем игрока
+                player.style.left = '50%';
+                player.style.top = '50%';
+                
+                // Движение игрока
+                gameContainer.addEventListener('mousemove', function(e) {
+                    if (!gameStarted) return;
+                    
+                    const rect = gameContainer.getBoundingClientRect();
+                    const x = e.clientX - rect.left - 10;
+                    const y = e.clientY - rect.top - 10;
+                    
+                    // Границы игрового поля
+                    const boundedX = Math.max(0, Math.min(rect.width - 20, x));
+                    const boundedY = Math.max(0, Math.min(rect.height - 20, y));
+                    
+                    player.style.left = boundedX + 'px';
+                    player.style.top = boundedY + 'px';
+                });
+                
+                // Начало игры
+                function startGame() {
+                    if (gameStarted) return;
+                    
+                    gameStarted = true;
+                    score = 0;
+                    difficultyLevel = 1;
+                    gameMessage.textContent = '';
+                    gameScore.textContent = 'Время: 0 сек | Уровень: 1';
+                    gameContainer.style.cursor = 'none';
+                    
+                    // Очистка вирусов
+                    clearViruses();
+                    
+                    // Игровой цикл
+                    gameInterval = setInterval(function() {
+                        score++;
+                        
+                        // Увеличиваем сложность каждые 15 секунд
+                        difficultyLevel = Math.min(maxDifficulty, Math.floor(score/15) + 1);
+                        gameScore.textContent = `Время: ${score} сек | Уровень: ${difficultyLevel}`;
+                        
+                        // Создаем вирусы (количество зависит от уровня сложности)
+                        const virusesToCreate = 1 + Math.floor(difficultyLevel/2);
+                        
+                        for (let i = 0; i < virusesToCreate; i++) {
+                            createVirus();
+                        }
+                        
+                        // Двигаем вирусы
+                        moveViruses();
+                        
+                        // Проверка столкновений
+                        if (!collisionInterval) {
+                            collisionInterval = setInterval(checkCollisions, 50);
+                        }
+                    }, 1000 - (difficultyLevel * 150)); // Уменьшаем интервал с ростом сложности
+                }
+                
+                // Создание вируса
+                function createVirus() {
+                    const virus = document.createElement('div');
+                    virus.className = 'virus';
+                    
+                    // Начальная позиция (с какой стороны появится вирус)
+                    const side = Math.floor(Math.random() * 4); // 0-верх, 1-право, 2-низ, 3-лево
+                    let x, y, dx, dy;
+                    
+                    // Скорость зависит от уровня сложности
+                    const speed = 1 + (difficultyLevel * 0.5);
+                    
+                    switch(side) {
+                        case 0: // сверху
+                            x = Math.random() * 100;
+                            y = -20;
+                            dx = (Math.random() - 0.5) * speed;
+                            dy = speed;
+                            break;
+                        case 1: // справа
+                            x = 100;
+                            y = Math.random() * 100;
+                            dx = -speed;
+                            dy = (Math.random() - 0.5) * speed;
+                            break;
+                        case 2: // снизу
+                            x = Math.random() * 100;
+                            y = 100;
+                            dx = (Math.random() - 0.5) * speed;
+                            dy = -speed;
+                            break;
+                        case 3: // слева
+                            x = -20;
+                            y = Math.random() * 100;
+                            dx = speed;
+                            dy = (Math.random() - 0.5) * speed;
+                            break;
+                    }
+                    
+                    virus.style.left = x + '%';
+                    virus.style.top = y + '%';
+                    
+                    // Сохраняем скорость вируса
+                    virus.dataset.dx = dx;
+                    virus.dataset.dy = dy;
+                    
+                    gameArea.appendChild(virus);
+                    viruses.push({
+                        element: virus,
+                        dx: dx,
+                        dy: dy
+                    });
+                }
+                
+                // Движение вирусов
+                function moveViruses() {
+                    viruses.forEach(virusObj => {
+                        if (!virusObj.element.parentNode) return;
+                        
+                        const virus = virusObj.element;
+                        const rect = virus.getBoundingClientRect();
+                        const gameRect = gameContainer.getBoundingClientRect();
+                        
+                        // Получаем текущие координаты в процентах
+                        let x = parseFloat(virus.style.left);
+                        let y = parseFloat(virus.style.top);
+                        
+                        // Обновляем позицию
+                        x += virusObj.dx;
+                        y += virusObj.dy;
+                        
+                        virus.style.left = x + '%';
+                        virus.style.top = y + '%';
+                        
+                        // Удаляем вирусы, которые вылетели за границы
+                        if (x < -10 || x > 110 || y < -10 || y > 110) {
+                            virus.remove();
+                        }
+                    });
+                    
+                    // Удаляем вылетевшие вирусы из массива
+                    viruses = viruses.filter(v => v.element.parentNode);
+                }
+                
+                // Очистка вирусов
+                function clearViruses() {
+                    viruses.forEach(v => {
+                        if (v.element.parentNode) {
+                            v.element.remove();
+                        }
+                    });
+                    viruses = [];
+                }
+                
+                // Проверка столкновений
+                function checkCollisions() {
+                    const playerRect = player.getBoundingClientRect();
+                    
+                    viruses.forEach(virusObj => {
+                        if (!virusObj.element.parentNode) return;
+                        
+                        const virusRect = virusObj.element.getBoundingClientRect();
+                        
+                        if (
+                            playerRect.left < virusRect.right &&
+                            playerRect.right > virusRect.left &&
+                            playerRect.top < virusRect.bottom &&
+                            playerRect.bottom > virusRect.top
+                        ) {
+                            endGame();
+                        }
+                    });
+                }
+                
+                // Конец игры
+                function endGame() {
+                    clearInterval(gameInterval);
+                    clearInterval(collisionInterval);
+                    collisionInterval = null;
+                    gameStarted = false;
+                    
+                    gameMessage.innerHTML = 'ИГРА ОКОНЧЕНА!<br>Твой результат: ' + score + ' сек<br>Уровень: ' + difficultyLevel + '<br>Кликни чтобы начать снова';
+                    gameContainer.style.cursor = 'pointer';
+                    
+                    // Эффект мигания
+                    let flashCount = 0;
+                    const flashInterval = setInterval(() => {
+                        gameContainer.style.borderColor = flashCount % 2 === 0 ? '#fff' : '#ff4b4b';
+                        flashCount++;
+                        
+                        if (flashCount > 6) {
+                            clearInterval(flashInterval);
+                            gameContainer.style.borderColor = '#ff4b4b';
+                        }
+                    }, 200);
+                }
+                
+                // Начало игры по клику
+                gameContainer.addEventListener('click', function() {
+                    if (!gameStarted) {
+                        startGame();
+                    }
+                });
+            });
+    </script>
+</body>
+</html>
